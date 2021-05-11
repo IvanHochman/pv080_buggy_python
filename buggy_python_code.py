@@ -1,20 +1,22 @@
 # contains bunch of buggy examples
-# taken from https://hackernoon.com/10-common-security-gotchas-in-python-and-how-to-avoid-them-e19fbe265e03
-import cPickle
+# taken from 
+# https://hackernoon.com/10-common-security-gotchas-in-python-and-how-to-avoid-them-e19fbe265e03
 import subprocess
 import base64
 import subprocess
 import flask
+import docstring
+import cPickle
 
 
 # Input injection
-def transcode_file(request, filename):
+def transcode_file(filename):
     command = 'ffmpeg -i "{source}" output_file.mpg'.format(source=filename)
     subprocess.call(command, shell=True)  # a bad idea!
 
 
 # Assert statements
-def assertCheck(request, user):
+def assert_check(user):
     assert user.is_admin, 'user does not have access'
     # secure code...
 
@@ -25,7 +27,7 @@ class RunBinSh(object):
         return (subprocess.Popen, (('/bin/sh',),))
 
 
-@app.route('/')
+# @app.route('/')
 def index():
     module = flask.request.args.get("module")
     exec("import urllib%s as urllib" % module)  # Noncompliant
